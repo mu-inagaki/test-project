@@ -1,9 +1,7 @@
-// index.js 222
+// index.js
 
 const express = require("express")
 const app = express()
-const cors = require("cors")
-app.use(cors())
 app.use(express.urlencoded({ extended: true}))
 app.use(express.json())
 const jwt = require("jsonwebtoken")
@@ -52,7 +50,7 @@ app.put("/item/update/:id", auth, async(req,res) => {
         await connectDB()
         const singleItem = await ItemModel.findById(req.params.id)
         if(singleItem.email === req.body.email){
-            wait ItemModel.updateOne({_id: req.params.id}, req.body)
+            await ItemModel.updateOne({_id: req.params.id}, req.body)
             return res.status(200).json({message: "アイテム編集成功"})
         } else {
             throw new Error()
@@ -112,9 +110,7 @@ app.post("/user/login",async(req,res) => {
     }
 })
 
-// Connecting to port
 const port = process.env.PORT || 5000
-
-app.listen(port, () => {
-    console.log("Listening on localhost port ${port}")
+app.listen(port,() => {
+    console.log('Listening on localhost port ${port}')
 })
